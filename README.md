@@ -32,6 +32,14 @@ Generate a new project and initialize a Git repository:
 ./cppstarter new MyProject --init-git
 ```
 
+### Install globally (Linux/macOS)
+
+To make `cppstarter` available system-wide:
+
+```bash
+sudo mv cppstarter /usr/local/bin
+```
+
 ## Generated Project Structure
 
 ```
