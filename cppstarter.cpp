@@ -48,24 +48,53 @@ int main(int argc, char* argv[]) {
     // Makefile with explicit tabs to prevent errors
     create_file(project + "/Makefile",
         "CXX = g++\n"
-        "CXXFLAGS = -Wall -Iinclude -g\n"
         "SRC = $(wildcard src/*.cpp)\n"
-        "OBJ = $(patsubst src/%.cpp, build/%.o, $(SRC))\n"
-        "BIN = bin/" + project + "\n\n"
-        "all: $(BIN)\n\n"
-        "$(BIN): $(OBJ)\n"
-        "	mkdir -p bin\n"
-        "	$(CXX) $(CXXFLAGS) -o $@ $^\n\n"
-        "build/%.o: src/%.cpp\n"
-        "	mkdir -p build\n"
-        "	$(CXX) $(CXXFLAGS) -c $< -o $@\n\n"
-        "test: tests/test_math.cpp\n"
-        "	mkdir -p bin\n"
-        "	$(CXX) $(CXXFLAGS) -Itests -o bin/test_math tests/test_math.cpp\n"
-        "	./bin/test_math\n\n"
+        "INCLUDES = -Iinclude\n\n"
+
+        "# === Debug configuration ===\n"
+        "DBG_FLAGS = -Wall $(INCLUDES) -g\n"
+        "DBG_OBJ = $(patsubst src/%.cpp, build/debug/obj/%.o, $(SRC))\n"
+        "DBG_BIN = build/debug/bin/" + project + "\n\n"
+
+        "# === Release configuration ===\n"
+        "REL_FLAGS = -Wall $(INCLUDES) -O2\n"
+        "REL_OBJ = $(patsubst src/%.cpp, build/release/obj/%.o, $(SRC))\n"
+        "REL_BIN = build/release/bin/" + project + "\n\n"
+
+        "# === Default target ===\n"
+        "all: $(DBG_BIN)\n\n"
+
+        "# === Debug build ===\n"
+        "$(DBG_BIN): $(DBG_OBJ)\n"
+        "\tmkdir -p $(dir $@)\n"
+        "\t$(CXX) $(DBG_FLAGS) -o $@ $^\n\n"
+
+        "build/debug/obj/%.o: src/%.cpp\n"
+        "\tmkdir -p $(dir $@)\n"
+        "\t$(CXX) $(DBG_FLAGS) -c $< -o $@\n\n"
+
+        "# === Release build ===\n"
+        "release: $(REL_BIN)\n\n"
+
+        "$(REL_BIN): $(REL_OBJ)\n"
+        "\tmkdir -p $(dir $@)\n"
+        "\t$(CXX) $(REL_FLAGS) -o $@ $^\n\n"
+
+        "build/release/obj/%.o: src/%.cpp\n"
+        "\tmkdir -p $(dir $@)\n"
+        "\t$(CXX) $(REL_FLAGS) -c $< -o $@\n\n"
+
+        "# === Run tests ===\n"
+        "test:\n"
+        "\tmkdir -p build/debug/bin\n"
+        "\t$(CXX) $(DBG_FLAGS) -Itests -o build/debug/bin/test_math tests/test_math.cpp\n"
+        "\t./build/debug/bin/test_math\n\n"
+
+        "# === Clean everything ===\n"
         "clean:\n"
-        "	rm -rf build bin\n"
+        "\trm -rf build\n"
     );
+
 
     // test_math.cpp
     create_file(project + "/tests/test_math.cpp",
