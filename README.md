@@ -12,10 +12,37 @@
 
 ## Installation
 
-Compile the generator:
+### Compile the generator
 
 ```bash
 g++ cppstarter.cpp -o cppstarter
+```
+
+### (Optional) Install globally (Linux/macOS)
+
+To make `cppstarter` available system-wide, move it to `/usr/local/bin` and give execution permissions:
+
+```bash
+sudo mv cppstarter /usr/local/bin/
+sudo chmod +x /usr/local/bin/cppstarter
+```
+
+Make sure `/usr/local/bin` is in your `PATH` environment variable:
+
+```bash
+echo $PATH
+```
+
+If you don't see `/usr/local/bin`, add it by editing your shell config file (e.g., `~/.bashrc` or `~/.zshrc`):
+
+```bash
+export PATH=$PATH:/usr/local/bin
+```
+
+Then reload the shell:
+
+```bash
+source ~/.bashrc  # or ~/.zshrc
 ```
 
 ## Usage
@@ -26,18 +53,22 @@ Generate a new project:
 ./cppstarter new MyProject
 ```
 
+If installed globally:
+
+```bash
+cppstarter new MyProject
+```
+
 Generate a new project and initialize a Git repository:
 
 ```bash
 ./cppstarter new MyProject --init-git
 ```
 
-### Install globally (Linux/macOS)
-
-To make `cppstarter` available system-wide:
+or if installed globally:
 
 ```bash
-sudo mv cppstarter /usr/local/bin
+cppstarter new MyProject --init-git
 ```
 
 ## Generated Project Structure
