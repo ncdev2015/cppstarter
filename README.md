@@ -4,11 +4,12 @@
 
 ## Features
 
-- Creates standard C++ project directories (`src`, `include`, `tests`, `bin`, `build`)
+- Creates standard C++ project directories (`src`, `include`, `tests`, `build`)
 - Generates a Makefile with build, test, and clean targets
 - Includes sample `main.cpp` and simple test example
 - Creates `.gitignore` and `README.md` files automatically
 - Optional Git repository initialization with `--init-git` flag
+- Includes helper commands: `--help`, `--version`, `run`, and `release`
 
 ## Installation
 
@@ -47,29 +48,47 @@ source ~/.bashrc  # or ~/.zshrc
 
 ## Usage
 
-Generate a new project:
+### Show help
 
 ```bash
-./cppstarter new MyProject
+cppstarter --help
 ```
 
-If installed globally:
+### Show version
+
+```bash
+cppstarter --version
+```
+
+### Create a new project
 
 ```bash
 cppstarter new MyProject
 ```
 
-Generate a new project and initialize a Git repository:
-
-```bash
-./cppstarter new MyProject --init-git
-```
-
-or if installed globally:
+### Create a new project and initialize Git
 
 ```bash
 cppstarter new MyProject --init-git
 ```
+
+### Run the project (debug build)
+
+```bash
+cd MyProject
+make
+cppstarter run
+```
+
+### Run the release build
+
+```bash
+cd MyProject
+make release
+cppstarter release
+```
+
+If the executable is not found, a helpful error message will suggest compiling the project first.
 
 ## Generated Project Structure
 
