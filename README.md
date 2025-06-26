@@ -1,4 +1,4 @@
-# CPP Project Generator CLI
+# CPP Starter - CPP Project Generator CLI
 
 `cppstarter` is a simple command-line tool to quickly scaffold C++ projects with a ready-to-use Makefile, directory structure, test setup, and optional Git initialization.
 
