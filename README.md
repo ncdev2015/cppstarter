@@ -52,7 +52,6 @@ MyProject/
 ├── include/
 ├── tests/
 │   └── test_math.cpp
-├── bin/
 └── build/
 ```
 
