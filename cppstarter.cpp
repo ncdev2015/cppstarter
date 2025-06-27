@@ -148,7 +148,7 @@ make
 ## Run
 
 ```bash
-./build/debug/bin/)" + project + R"(
+make run
 ```
 
 ## Run tests
@@ -166,7 +166,7 @@ make release
 ## Run release
 
 ```bash
-./build/release/bin/app
+make run-release
 ```
 
 ## Clean build files
