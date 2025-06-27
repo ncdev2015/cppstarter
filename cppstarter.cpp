@@ -84,11 +84,14 @@ void create_project(const std::string& project, bool init_git) {
         "REL_OBJ = $(patsubst src/%.cpp, build/release/obj/%.o, $(SRC))\n"
         "REL_BIN = build/release/bin/" + project + "\n\n"
 
+        "LIBS_DEBUG = \n"
+        "LIBS_RELEASE = \n\n"
+
         "all: $(DBG_BIN)\n\n"
 
         "$(DBG_BIN): $(DBG_OBJ)\n"
         "\tmkdir -p $(dir $@)\n"
-        "\t$(CXX) $(DBG_FLAGS) -o $@ $^\n\n"
+        "\t$(CXX) $(DBG_FLAGS) -o $@ $^ $(LIBS_DEBUG)\n\n"
 
         "build/debug/obj/%.o: src/%.cpp\n"
         "\tmkdir -p $(dir $@)\n"
@@ -98,7 +101,7 @@ void create_project(const std::string& project, bool init_git) {
 
         "$(REL_BIN): $(REL_OBJ)\n"
         "\tmkdir -p $(dir $@)\n"
-        "\t$(CXX) $(REL_FLAGS) -o $@ $^\n\n"
+        "\t$(CXX) $(REL_FLAGS) -o $@ $^ $(LIBS_RELEASE)\n\n"
 
         "build/release/obj/%.o: src/%.cpp\n"
         "\tmkdir -p $(dir $@)\n"
