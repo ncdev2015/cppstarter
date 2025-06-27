@@ -6,13 +6,13 @@
 
 namespace fs = std::filesystem;
 
-const std::string VERSION = "v2.1.0";
+const std::string VERSION = "v2.2.0";
 
 void show_help(const std::string& program_name) {
     std::cout << "Usage:\n"
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
               << "  " << program_name << " run                               Run debug build\n"
-              << "  " << program_name << " release                           Run release build\n"
+              << "  " << program_name << " run-release                       Run release build\n"
               << "  " << program_name << " min                               Creates a minimal prompt script (min.sh)\n"
               << "  " << program_name << " --help                            Show this help message\n"
               << "  " << program_name << " --version                         Show version\n";
@@ -22,16 +22,20 @@ void show_version() {
     std::cout << "cppstarter version " << VERSION << '\n';
 }
 
-void run_build(const std::string& type, const std::string& project_name) {
-    std::string path = "./build/" + type + "/bin/" + project_name;
+void run_build(const std::string& type) {
+    std::string command;
 
-    if (!fs::exists(path)) {
-        std::cerr << "Error: " << path << " not found. Please build the project first using 'make' or 'make release'.\n";
+    if (type == "debug") {
+        command = "make run";
+    } else if (type == "run-release") {
+        command = "make run-release";
+    } else {
+        std::cerr << "Unknown build type: " << type << '\n';
         return;
     }
 
-    std::cout << "Running " << type << " build...\n";
-    int result = std::system(path.c_str());
+    std::cout << "Running " << type << " build via Makefile...\n";
+    int result = std::system(command.c_str());
     if (result != 0) {
         std::cerr << "Execution failed with code: " << result << '\n';
     }
@@ -106,7 +110,13 @@ void create_project(const std::string& project, bool init_git) {
         "\t./build/debug/bin/test_math\n\n"
 
         "clean:\n"
-        "\trm -rf build\n"
+        "\trm -rf build\n\n"
+
+        "run: $(DBG_BIN)\n"
+        "\t./$(DBG_BIN)\n\n"
+
+        "run-release: $(REL_BIN)\n"
+        "\t./$(REL_BIN)"
     );
 
     create_file(project + "/tests/test_math.cpp",
@@ -206,9 +216,9 @@ int main(int argc, char* argv[]) {
     } else if (cmd == "--version") {
         show_version();
     } else if (cmd == "run") {
-        run_build("debug", fs::current_path().filename().string());
-    } else if (cmd == "release") {
-        run_build("release", fs::current_path().filename().string());
+        run_build("debug");
+    } else if (cmd == "run-release") {
+        run_build("run-release");
     } else if (cmd == "min") {
         create_min_sh();        
     } else if (cmd == "new") {
