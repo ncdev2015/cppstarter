@@ -9,7 +9,7 @@
 - Includes sample `main.cpp` and simple test example
 - Creates `.gitignore` and `README.md` files automatically
 - Optional Git repository initialization with `--init-git` flag
-- Includes helper commands: `--help`, `--version`, `run`, and `release`
+- Includes helper commands: `--help`, `--version`, `run`, `run`, `run-release` and `min`
 
 ## Installation
 
@@ -17,6 +17,12 @@
 
 ```bash
 g++ cppstarter.cpp -o cppstarter
+```
+
+### Compile the generator for release
+
+```bash
+g++ -O2 cppstarter.cpp -o cppstarter
 ```
 
 ### (Optional) Install globally (Linux/macOS)
@@ -76,7 +82,6 @@ cppstarter new MyProject --init-git
 
 ```bash
 cd MyProject
-make
 cppstarter run
 ```
 
@@ -84,11 +89,16 @@ cppstarter run
 
 ```bash
 cd MyProject
-make release
-cppstarter release
+make run-release
 ```
-
 If the executable is not found, a helpful error message will suggest compiling the project first.
+
+### Compact the terminal prompt
+
+```bash
+cppstarter min
+source min.sh
+```
 
 ## Generated Project Structure
 
