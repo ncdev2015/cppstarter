@@ -13,6 +13,7 @@ void show_help(const std::string& program_name) {
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
               << "  " << program_name << " run                               Run debug build\n"
               << "  " << program_name << " release                           Run release build\n"
+              << "  " << program_name << " min                               Creates a minimal prompt script (min.sh)\n"
               << "  " << program_name << " --help                            Show this help message\n"
               << "  " << program_name << " --version                         Show version\n";
 }
@@ -61,7 +62,7 @@ void create_project(const std::string& project, bool init_git) {
     create_directory(project + "/build");
 
     create_file(project + "/src/main.cpp",
-        "#include <iostream>\n\nint main() {\n    std::cout << \"Hello, " + project + "!\" << std::endl;\n    return 0;\n}"
+        "#include <iostream>\n\nint main(int argc, char* argv[]) {\n    std::cout << \"Hello, " + project + "!\" << std::endl;\n    return 0;\n}"
     );
 
     create_file(project + "/Makefile",
@@ -178,6 +179,20 @@ make clean
     std::cout << "Project '" << project << "' created successfully.\n";
 }
 
+void create_min_sh() {
+    std::ofstream script("min.sh");
+    if (script.is_open()) {
+        script << "#!/bin/bash\n";
+        script << "export PS1='\\[\\e[1;34m\\]\\W\\$\\[\\e[0m\\] '\n";
+        script.close();
+
+        std::cout << "Script 'min.sh' created. To activate the reduced prompt, run:\n";
+        std::cout << "    source ./min.sh\n";
+    } else {
+        std::cerr << "Could not create 'min.sh'\n";
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         show_help(argv[0]);
@@ -194,6 +209,8 @@ int main(int argc, char* argv[]) {
         run_build("debug", fs::current_path().filename().string());
     } else if (cmd == "release") {
         run_build("release", fs::current_path().filename().string());
+    } else if (cmd == "min") {
+        create_min_sh();        
     } else if (cmd == "new") {
         if (argc < 3) {
             std::cerr << "Error: Missing project name.\n";
