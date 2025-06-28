@@ -16,13 +16,13 @@
 ### Compile the generator
 
 ```bash
-g++ cppstarter.cpp -o cppstarter
+make
 ```
 
 ### Compile the generator for release
 
 ```bash
-g++ -O2 cppstarter.cpp -o cppstarter
+make release
 ```
 
 ### (Optional) Install globally (Linux/macOS)
