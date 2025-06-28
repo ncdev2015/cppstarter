@@ -89,7 +89,7 @@ cppstarter run
 
 ```bash
 cd MyProject
-make run-release
+cppstarter run-release
 ```
 If the executable is not found, a helpful error message will suggest compiling the project first.
 
