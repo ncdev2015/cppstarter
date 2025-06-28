@@ -8,9 +8,8 @@ find_package(SDL2 REQUIRED)
 
 include_directories(${SDL2_INCLUDE_DIRS} include)
 
-add_executable({{PROJECT_NAME}}
-    src/main.cpp
-    src/app.cpp
-)
+file(GLOB SRC_FILES "src/*.cpp")
+
+add_executable({{PROJECT_NAME}} ${SRC_FILES})
 
 target_link_libraries({{PROJECT_NAME}} ${SDL2_LIBRARIES})
