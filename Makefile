@@ -40,6 +40,9 @@ test:
 	$(CXX) $(DBG_FLAGS) -Itests -o build/debug/bin/test_math tests/test_math.cpp
 	./build/debug/bin/test_math
 
+valgrind: $(DBG_BIN)
+	valgrind --leak-check=full --track-origins=yes ./$(DBG_BIN)
+
 run: $(DBG_BIN)
 	./$(DBG_BIN)
 
