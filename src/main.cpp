@@ -22,7 +22,7 @@ void show_help(const std::string& program_name) {
               << colors::RESET;
 }
 
-void show_version() {
+void show_version() {    
     std::cout << "cppstarter version " << VERSION << '\n';
 }
 
@@ -180,11 +180,7 @@ make clean
 ```
 )");
 
-    if (init_git) {        
-        std::string cmd = "cd " + project + " && git init";
-        int ret = std::system(cmd.c_str());
-
-        create_file(project + "/.gitignore", R"(/build/
+    create_file(project + "/.gitignore", R"(/build/
 /bin/
 *.o
 *.out
@@ -195,6 +191,10 @@ make clean
 .DS_Store
 core
 )");
+
+    if (init_git) {        
+        std::string cmd = "cd " + project + " && git init";
+        int ret = std::system(cmd.c_str());
 
         if (ret != 0) {
             std::cout << colors::RED;

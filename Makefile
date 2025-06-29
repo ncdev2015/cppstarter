@@ -1,6 +1,5 @@
 CXX = g++
 OPTIMIZATION_LEVEL = -O2
-
 SRC = $(wildcard src/*.cpp)
 INCLUDES = -Iinclude
 
@@ -66,3 +65,22 @@ install: $(REL_BIN)
 	mkdir -p $(PREFIX)/bin
 	cp $(REL_BIN) $(PREFIX)/bin/cppstarter
 
+uninstall:
+	rm -f $(PREFIX)/bin/cppstarter
+
+help: ## Shows this help
+	@echo "Available targets:"
+	@echo "  release     - Build optimized release application"
+	@echo "  test        - Compile and run tests"
+	@echo "  run         - Run application in debug mode (with colored output)"
+	@echo "  run-release - Run application in release mode"
+	@echo "  valgrind    - Run debug application with valgrind"
+	@echo "  install     - Install release binary to system (default: /usr/local/bin)"
+	@echo "  clean       - Remove all compiled files and directories"
+	@echo "  help        - Show this help"
+	@echo ""
+	@echo "Installation options:"
+	@echo "  PREFIX      - Installation prefix (default: /usr/local)"
+	@echo "                Usage: make install PREFIX=/custom/path"
+
+.PHONY: all release test run run-release valgrind install clean help
