@@ -1,12 +1,10 @@
 CXX = g++
 OPTIMIZATION_LEVEL = -O2
-
 SRC = $(wildcard src/*.cpp)
 
 # Automatically get flags and libraries using sdl2-config
 SDL_CFLAGS = $(shell sdl2-config --cflags)
 SDL_LIBS   = $(shell sdl2-config --libs)
-
 INCLUDES = -Iinclude
 
 # === Debug configuration ===
@@ -57,3 +55,16 @@ run-release: $(REL_BIN)
 
 clean:
 	rm -rf build
+
+help: ## Shows this help
+	@echo "Available targets:"
+	@echo "  all         - Build debug version (default)"
+	@echo "  release     - Build optimized SDL2 application"
+	@echo "  test        - Compile and run tests"
+	@echo "  run         - Run SDL2 application in debug mode"
+	@echo "  run-release - Run SDL2 application in release mode"
+	@echo "  valgrind    - Run debug application with valgrind"
+	@echo "  clean       - Remove all compiled files and directories"
+	@echo "  help        - Show this help"
+
+.PHONY: all release test run run-release valgrind clean help

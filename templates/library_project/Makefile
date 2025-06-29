@@ -1,10 +1,8 @@
 CXX = g++
 OPTIMIZATION_LEVEL = -O2
-
 # Source files for the library: all except main.cpp
 SRC = $(filter-out src/main.cpp, $(wildcard src/*.cpp))
 MAIN = src/main.cpp
-
 INCLUDES = -Iinclude
 
 # === Debug configuration ===
@@ -69,3 +67,16 @@ run-release: $(REL_BIN)
 
 clean:
 	rm -rf build
+
+help: ## Shows this help
+	@echo "Available targets:"
+	@echo "  all         - Build debug version (default)"
+	@echo "  release     - Build optimized release library and executable"
+	@echo "  test        - Compile and run unit tests"
+	@echo "  run         - Run main executable in debug mode"
+	@echo "  run-release - Run main executable in release mode"
+	@echo "  valgrind    - Run debug executable with valgrind"
+	@echo "  clean       - Remove all compiled files and directories"
+	@echo "  help        - Show this help"
+
+.PHONY: all release test run run-release valgrind clean help

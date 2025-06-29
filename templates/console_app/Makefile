@@ -54,3 +54,16 @@ run-release: $(REL_BIN)
 
 clean:
 	rm -rf build
+
+help:
+	@echo "Available targets:"
+	@echo "  all         - Build debug version (default)"
+	@echo "  release     - Build optimized release version"
+	@echo "  test        - Compile and run tests"
+	@echo "  run         - Run application in debug mode"
+	@echo "  run-release - Run application in release mode"
+	@echo "  valgrind    - Run application with valgrind"
+	@echo "  clean       - Remove compiled files"
+	@echo "  help        - Show this help"
+
+.PHONY: all release test run run-release valgrind clean help

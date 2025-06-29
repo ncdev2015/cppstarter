@@ -1,6 +1,5 @@
 CXX = g++
 OPTIMIZATION_LEVEL = -O2
-
 SRC = $(wildcard src/*.cpp)
 INCLUDES = -Iinclude
 
@@ -55,3 +54,16 @@ run-release: $(REL_BIN)
 
 clean:
 	rm -rf build
+
+help: ## Shows this help
+	@echo "Available targets:"
+	@echo "  all         - Build debug version (default)"
+	@echo "  release     - Build optimized SFML application"
+	@echo "  test        - Compile and run tests"
+	@echo "  run         - Run SFML application in debug mode"
+	@echo "  run-release - Run SFML application in release mode"
+	@echo "  valgrind    - Run debug application with valgrind"
+	@echo "  clean       - Remove all compiled files and directories"
+	@echo "  help        - Show this help"
+
+.PHONY: all release test run run-release valgrind clean help
