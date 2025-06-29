@@ -2,7 +2,7 @@
 #include "functions.h"
 
 int main() {
-    std::cout << "Hello from {{PROJECT_NAME}}!" << std::endl;
+    std::cout << "Hello from console_app" << std::endl;
     greet();
     
     return 0;

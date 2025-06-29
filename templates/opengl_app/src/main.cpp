@@ -17,7 +17,7 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
-    GLFWwindow* window = glfwCreateWindow(800, 600, "{{PROJECT_NAME}}", nullptr, nullptr);
+    GLFWwindow* window = glfwCreateWindow(800, 600, "opengl_app", nullptr, nullptr);
     if (!window) {
         std::cerr << "Failed to create GLFW window\n";
         glfwTerminate();
