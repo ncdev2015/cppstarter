@@ -137,19 +137,7 @@ void create_project(const std::string& project, bool init_git) {
 
     create_file(project + "/tests/test_math.cpp",
         "#include <cassert>\n#include <iostream>\n\nint main() {\n    assert(2 + 2 == 4);\n    std::cout << \"All tests passed!\\n\";\n    return 0;\n}"
-    );
-
-    create_file(project + "/.gitignore", R"(/build/
-/bin/
-*.o
-*.out
-*.exe
-*.log
-*~
-*.swp
-.DS_Store
-core
-)");
+    );    
 
     create_file(project + "/README.md", "# " + project + R"(
 
@@ -192,9 +180,22 @@ make clean
 ```
 )");
 
-    if (init_git) {
+    if (init_git) {        
         std::string cmd = "cd " + project + " && git init";
         int ret = std::system(cmd.c_str());
+
+        create_file(project + "/.gitignore", R"(/build/
+/bin/
+*.o
+*.out
+*.exe
+*.log
+*~
+*.swp
+.DS_Store
+core
+)");
+
         if (ret != 0) {
             std::cout << colors::RED;
             std::cerr << "Warning: failed to initialize git repository.\n";
