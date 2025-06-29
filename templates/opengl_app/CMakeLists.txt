@@ -3,19 +3,13 @@ project({{PROJECT_NAME}})
 
 set(CMAKE_CXX_STANDARD 17)
 
-# Include paths
 include_directories(include)
 
-# Add source files
-add_executable({{PROJECT_NAME}}
-    src/main.cpp
-    src/shader_utils.cpp
-)
-
-# Find GLFW
+find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-# Link GLAD manually (or via vcpkg, submodule, etc.)
-add_subdirectory(external/glad)
+file(GLOB SRC_FILES "src/*.cpp")
 
-target_link_libraries({{PROJECT_NAME}} glfw glad ${CMAKE_DL_LIBS})
+add_executable(${PROJECT_NAME} ${SRC_FILES})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE OpenGL::GL glfw)

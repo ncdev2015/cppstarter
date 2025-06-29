@@ -4,11 +4,13 @@
 #include <string>
 #include <cstdlib>
 
+#include "utils/colors.hpp"
+
 namespace fs = std::filesystem;
 
 const std::string VERSION = "v2.2.0";
 
-void show_help(const std::string& program_name) {
+void show_help(const std::string& program_name) {    
     std::cout << "Usage:\n"
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
               << "  " << program_name << " run                               Run debug build\n"
@@ -112,6 +114,9 @@ void create_project(const std::string& project, bool init_git) {
         "\t$(CXX) $(DBG_FLAGS) -Itests -o build/debug/bin/test_math tests/test_math.cpp\n"
         "\t./build/debug/bin/test_math\n\n"
 
+        "valgrind: $(DBG_BIN)\n"
+        "\tvalgrind --leak-check=full --track-origins=yes ./$(DBG_BIN)\n\n"
+
         "clean:\n"
         "\trm -rf build\n\n"
 
@@ -207,6 +212,7 @@ void create_min_sh() {
 }
 
 int main(int argc, char* argv[]) {
+
     if (argc < 2) {
         show_help(argv[0]);
         return 1;

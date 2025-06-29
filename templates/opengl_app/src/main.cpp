@@ -1,8 +1,11 @@
-#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height);
+#include "shapes.hpp"
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
 
 int main() {
     if (!glfwInit()) {
@@ -10,9 +13,9 @@ int main() {
         return -1;
     }
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // Request OpenGL 2.1 (for compatibility with immediate mode)
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 2);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 1);
 
     GLFWwindow* window = glfwCreateWindow(800, 600, "{{PROJECT_NAME}}", nullptr, nullptr);
     if (!window) {
@@ -24,25 +27,27 @@ int main() {
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
 
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
-        std::cerr << "Failed to initialize GLAD\n";
-        return -1;
-    }
+    // Set initial viewport size
+    int width, height;
+    glfwGetFramebufferSize(window, &width, &height);
+    framebuffer_size_callback(window, width, height);
 
+    // Main render loop
     while (!glfwWindowShouldClose(window)) {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // render stuff...
+        glColor3f(1, 0, 0);
+        drawSquare(0.0f, 0.0f, 0.5f);
+
+        glColor3f(0, 1, 0);
+        drawCircle(-0.5f, -0.5f, 0.2f);
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
+    glfwDestroyWindow(window);
     glfwTerminate();
-    return 0;
-}
 
-void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
-    glViewport(0, 0, width, height);
+    return 0;
 }
