@@ -8,16 +8,18 @@
 
 namespace fs = std::filesystem;
 
-const std::string VERSION = "v2.2.0";
+const std::string VERSION = "v2.2.1";
 
-void show_help(const std::string& program_name) {    
+void show_help(const std::string& program_name) {
+    std::cout << colors::GREEN;
     std::cout << "Usage:\n"
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
               << "  " << program_name << " run                               Run debug build\n"
               << "  " << program_name << " run-release                       Run release build\n"
               << "  " << program_name << " min                               Creates a minimal prompt script (min.sh)\n"
               << "  " << program_name << " --help                            Show this help message\n"
-              << "  " << program_name << " --version                         Show version\n";
+              << "  " << program_name << " --version                         Show version\n"
+              << colors::RESET;
 }
 
 void show_version() {
@@ -32,14 +34,18 @@ void run_build(const std::string& type) {
     } else if (type == "run-release") {
         command = "make run-release";
     } else {
+        std::cout << colors::RED;
         std::cerr << "Unknown build type: " << type << '\n';
+        std::cout << colors::RESET;
         return;
     }
 
     std::cout << "Running " << type << " build via Makefile...\n";
     int result = std::system(command.c_str());
     if (result != 0) {
+        std::cout << colors::RED;
         std::cerr << "Execution failed with code: " << result << '\n';
+        std::cout << colors::RESET;
     }
 }
 
@@ -55,7 +61,9 @@ void create_file(const fs::path& path, const std::string& content) {
 bool create_directory(const fs::path& path) {
     std::error_code ec;
     if (!fs::create_directories(path, ec) && ec) {
+        std::cout << colors::YELLOW;
         std::cerr << "Warning: could not create directory " << path << ": " << ec.message() << "\n";
+        std::cout << colors::RESET;
         return false;
     }
     return true;
@@ -188,13 +196,19 @@ make clean
         std::string cmd = "cd " + project + " && git init";
         int ret = std::system(cmd.c_str());
         if (ret != 0) {
+            std::cout << colors::RED;
             std::cerr << "Warning: failed to initialize git repository.\n";
+            std::cout << colors::RESET;
         } else {
+            std::cout << colors::GREEN;
             std::cout << "Git repository initialized.\n";
+            std::cout << colors::RESET;
         }
     }
 
+    std::cout << colors::GREEN;
     std::cout << "Project '" << project << "' created successfully.\n";
+    std::cout << colors::RESET;
 }
 
 void create_min_sh() {
@@ -204,10 +218,14 @@ void create_min_sh() {
         script << "export PS1='\\[\\e[1;34m\\]\\W\\$\\[\\e[0m\\] '\n";
         script.close();
 
+        std::cout << colors::GREEN;
         std::cout << "Script 'min.sh' created. To activate the reduced prompt, run:\n";
         std::cout << "    source ./min.sh\n";
-    } else {
+        std::cout << colors::RESET;
+    } else {        
+        std::cout << colors::RED;
         std::cerr << "Could not create 'min.sh'\n";
+        std::cout << colors::RESET;
     }
 }
 
@@ -232,14 +250,18 @@ int main(int argc, char* argv[]) {
         create_min_sh();        
     } else if (cmd == "new") {
         if (argc < 3) {
+            std::cout << colors::RED;
             std::cerr << "Error: Missing project name.\n";
+            std::cout << colors::RESET;
             return 1;
         }
         std::string project_name = argv[2];
         bool init_git = (argc == 4 && std::string(argv[3]) == "--init-git");
         create_project(project_name, init_git);
     } else {
+        std::cout << colors::RED;
         std::cerr << "Error: Unknown command '" << cmd << "'.\n";
+        std::cout << colors::RESET;
         show_help(argv[0]);
         return 1;
     }

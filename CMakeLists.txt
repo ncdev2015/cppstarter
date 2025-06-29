@@ -26,3 +26,7 @@ elseif(CMAKE_BUILD_TYPE MATCHES Release)
 else()
     message(STATUS "Building in unspecified mode (default compiler flags)")
 endif()
+
+# Install the built executable to the system's binary directory
+# By default, this goes to /usr/local/bin or the path defined by CMAKE_INSTALL_PREFIX
+install(TARGETS ${PROJECT_NAME} DESTINATION bin)

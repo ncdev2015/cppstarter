@@ -1,4 +1,6 @@
 CXX = g++
+OPTIMIZATION_LEVEL = -O2
+
 SRC = $(wildcard src/*.cpp)
 INCLUDES = -Iinclude
 
@@ -8,7 +10,7 @@ DBG_OBJ = $(patsubst src/%.cpp, build/debug/obj/%.o, $(SRC))
 DBG_BIN = build/debug/bin/cppstarter
 
 # === Release configuration ===
-REL_FLAGS = -Wall $(INCLUDES) -O2
+REL_FLAGS = -Wall $(INCLUDES) $(OPTIMIZATION_LEVEL)
 REL_OBJ = $(patsubst src/%.cpp, build/release/obj/%.o, $(SRC))
 REL_BIN = build/release/bin/cppstarter
 
@@ -43,11 +45,24 @@ test:
 valgrind: $(DBG_BIN)
 	valgrind --leak-check=full --track-origins=yes ./$(DBG_BIN)
 
+# Colored output for the binary output
+CYAN := \033[36m
+RESET := \033[0m
+
 run: $(DBG_BIN)
-	./$(DBG_BIN)
+	@./$(DBG_BIN) | awk -v cyan="$(CYAN)" -v reset="$(RESET)" '{print cyan $$0 reset}'
 
 run-release: $(REL_BIN)
 	./$(REL_BIN)
 
 clean:
 	rm -rf build
+
+PREFIX ?= /usr/local
+
+# Install the release binary to the system's bin directory (default: /usr/local/bin)
+# Usage: sudo make install
+install: $(REL_BIN)
+	mkdir -p $(PREFIX)/bin
+	cp $(REL_BIN) $(PREFIX)/bin/cppstarter
+
