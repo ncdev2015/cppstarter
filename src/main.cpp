@@ -16,6 +16,8 @@ void show_help(const std::string& program_name) {
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
               << "  " << program_name << " run                               Run debug build\n"
               << "  " << program_name << " run-release                       Run release build\n"
+              << "  " << program_name << " test                              Compile and run tests\n"
+              << "  " << program_name << " valgrind                          Run debug application with valgeind\n"
               << "  " << program_name << " min                               Creates a minimal prompt script (min.sh)\n"
               << "  " << program_name << " --help                            Show this help message\n"
               << "  " << program_name << " --version                         Show version\n"
@@ -230,6 +232,20 @@ void create_min_sh() {
     }
 }
 
+void run_make_command(const std::string& make_cmd) {
+    int result = std::system(make_cmd.c_str());
+
+    if (result != 0) {
+        std::cout << colors::RED;
+        std::cerr 
+            << "Execution '"
+            << make_cmd.substr(5)
+            << "' failed with code: "
+            << result << '\n';
+        std::cout << colors::RESET;
+    }
+}
+
 int main(int argc, char* argv[]) {
 
     if (argc < 2) {
@@ -243,12 +259,22 @@ int main(int argc, char* argv[]) {
         show_help(argv[0]);
     } else if (cmd == "--version") {
         show_version();
+    } else if (cmd == "build") {
+        run_make_command("make");
     } else if (cmd == "run") {
         run_build("debug");
+    } else if (cmd == "release") {
+        run_make_command("make release");
     } else if (cmd == "run-release") {
         run_build("run-release");
     } else if (cmd == "min") {
-        create_min_sh();        
+        create_min_sh();
+    } else if (cmd == "test") {
+        run_make_command("make test");
+    } else if (cmd == "valgrind") {
+        run_make_command("make valgrind");
+    } else if (cmd == "clean") {
+        run_make_command("make clean");
     } else if (cmd == "new") {
         if (argc < 3) {
             std::cout << colors::RED;
