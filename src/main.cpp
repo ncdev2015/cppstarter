@@ -12,12 +12,13 @@
 
 namespace fs = std::filesystem;
 
-const std::string VERSION = "v2.2.1";
+constexpr std::string_view PROGRAM_NAME = "cppstarter";
+constexpr std::string_view VERSION = "v2.3.0";
 
 // Forward declarations
-void show_help(const std::string& program_name);
-void show_version(const std::string& program_name);
-void create_project_handler(const std::string& project_name);
+void show_help(std::string_view program_name);
+void show_version(std::string_view program_name);
+void create_project_handler(std::string_view program_name);
 void run_debug();
 void run_release();
 void run_tests();
@@ -29,8 +30,8 @@ using CommandHandler = std::function<void()>;
 
 // Command registry using unordered_map for O(1) lookup
 const std::unordered_map<std::string_view, CommandHandler> commands = {
-    {"--help", []() { show_help("cppstarter"); }},
-    {"--version", []() { show_version("cppstarter"); }},
+    {"--help", []() { show_help(PROGRAM_NAME); }},
+    {"--version", []() { show_version(PROGRAM_NAME); }},
     {"run", run_debug},
     {"run-release", run_release},
     {"test", run_tests},
@@ -38,7 +39,7 @@ const std::unordered_map<std::string_view, CommandHandler> commands = {
     {"min", create_min_sh}
 };
 
-void show_help(const std::string& program_name) {
+void show_help(std::string_view program_name) {
     std::cout << colors::GREEN
               << "Usage:\n"
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
@@ -52,8 +53,8 @@ void show_help(const std::string& program_name) {
               << colors::RESET;
 }
 
-void show_version(const std::string&) {
-    std::cout << "cppstarter version " << VERSION << '\n';
+void show_version(std::string_view program_name) {
+    std::cout << PROGRAM_NAME << " version " << VERSION << '\n';
 }
 
 bool execute_system_command(const std::string& command, const std::string& description = "") {
@@ -87,7 +88,7 @@ void run_valgrind() {
     execute_system_command("make valgrind", "Running with valgrind...");
 }
 
-void create_file(const fs::path& path, const std::string& content) {
+void create_file(const fs::path& path, std::string_view content) {
     try {
         std::ofstream file(path);
         if (!file) {
