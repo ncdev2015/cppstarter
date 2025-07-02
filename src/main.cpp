@@ -19,6 +19,7 @@ constexpr std::string_view VERSION = "v2.3.0";
 void show_help(std::string_view program_name);
 void show_version(std::string_view program_name);
 void create_project_handler(std::string_view program_name);
+void run_build();
 void run_debug();
 void run_release();
 void run_tests();
@@ -32,6 +33,7 @@ using CommandHandler = std::function<void()>;
 const std::unordered_map<std::string_view, CommandHandler> commands = {
     {"--help", []() { show_help(PROGRAM_NAME); }},
     {"--version", []() { show_version(PROGRAM_NAME); }},
+    {"build", run_build},
     {"run", run_debug},
     {"run-release", run_release},
     {"test", run_tests},
@@ -43,6 +45,7 @@ void show_help(std::string_view program_name) {
     std::cout << colors::GREEN
               << "Usage:\n"
               << "  " << program_name << " new <ProjectName> [--init-git]    Create a new C++ project\n"
+              << "  " << program_name << " build                             Compile debug build\n"
               << "  " << program_name << " run                               Run debug build\n"
               << "  " << program_name << " run-release                       Run release build\n"
               << "  " << program_name << " test                              Compile and run tests\n"
@@ -70,6 +73,10 @@ bool execute_system_command(const std::string& command, const std::string& descr
         return false;
     }
     return true;
+}
+
+void run_build() {
+    execute_system_command("make", "Compiling debug build...");
 }
 
 void run_debug() {
