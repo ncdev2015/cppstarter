@@ -9,13 +9,13 @@ INCLUDES = -Iinclude
 DBG_FLAGS = -Wall $(INCLUDES) -g
 DBG_OBJ = $(patsubst src/%.cpp, build/debug/obj/%.o, $(SRC))
 DBG_LIB = build/debug/lib/liblibrary_project.a
-DBG_BIN = build/debug/bin/main_test
+DBG_BIN = build/debug/bin/library_project
 
 # === Release configuration ===
 REL_FLAGS = -Wall $(INCLUDES) $(OPTIMIZATION_LEVEL)
 REL_OBJ = $(patsubst src/%.cpp, build/release/obj/%.o, $(SRC))
 REL_LIB = build/release/lib/liblibrary_project.a
-REL_BIN = build/release/bin/main_test
+REL_BIN = build/release/bin/library_project
 
 all: $(DBG_BIN)
 
