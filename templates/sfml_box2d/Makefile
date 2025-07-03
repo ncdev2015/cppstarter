@@ -15,13 +15,13 @@ ALL_LIBS = $(SFML_LIBS) $(BOX2D_LIBS)
 # === Debug configuration ===
 DBG_FLAGS = -Wall $(INCLUDES) -g
 DBG_OBJ = $(patsubst src/%.cpp, build/debug/obj/%.o, $(SRC))
-DBG_BIN = build/debug/bin/sfml_app
+DBG_BIN = build/debug/bin/sfml_box2d
 LIBS_DEBUG = $(ALL_LIBS)
 
 # === Release configuration ===
 REL_FLAGS = -Wall $(INCLUDES) $(OPTIMIZATION_LEVEL)
 REL_OBJ = $(patsubst src/%.cpp, build/release/obj/%.o, $(SRC))
-REL_BIN = build/release/bin/sfml_app
+REL_BIN = build/release/bin/sfml_box2d
 LIBS_RELEASE = $(ALL_LIBS)
 
 all: $(DBG_BIN)
